@@ -1,0 +1,33 @@
+// Copyright (c) 2011 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+// When the extension is installed or upgraded ...
+chrome.runtime.onInstalled.addListener(function () {
+  // Replace all rules ...
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
+    // With a new rule ...
+    chrome.declarativeContent.onPageChanged.addRules([
+      {
+        // That fires when a page's URL contains a 'g' ...
+        conditions: [
+          new chrome.declarativeContent.PageStateMatcher({
+            pageUrl: { urlContains: 'juejin' },
+          })
+        ],
+        // And shows the extension's page action.
+        actions: [new chrome.declarativeContent.ShowPageAction()]
+      }
+    ]);
+  });
+});
+// chrome.browserAction.onClicked.addListener(start);
+chrome.browserAction.onClicked.addListener(function(tab) {
+  // chrome.tabs.executeScript({
+  //   code: 'document.body.style.backgroundColor="red"'
+  // });
+  // chrome.tabs.executeScript(null, {file: "lib/av-min.js"});
+  // chrome.tabs.executeScript(null, {file: "lib/axios.min.js"});
+  // chrome.tabs.executeScript(null, {file: "caplarry.js"});
+  chrome.tabs.executeScript(null, {file: "bind.js"});
+});

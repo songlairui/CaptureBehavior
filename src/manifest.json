@@ -1,0 +1,38 @@
+{
+  "name": "Capture My Commenting Beahvior",
+  "version": "1.0",
+  "description": "捕捉我的留言行为，将自己的留言收集到自己的数据存储之中",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_icon": "icon-19.png",
+    "default_title": "Capture Larry"
+  },
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "https://*/"
+  ],
+  "icons": {
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": [
+        "https://juejin.im/entry/*",
+        "https://*/"
+      ],
+      "js": [
+        // "lib/av-min.js",
+        // "lib/axios.min.js",
+        "bind.js"
+      ]
+    }
+  ]
+}
