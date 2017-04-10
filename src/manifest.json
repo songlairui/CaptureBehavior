@@ -25,12 +25,12 @@
   "content_scripts": [
     {
       "matches": [
-        "https://juejin.im/entry/*",
-        "https://*/"
+        "<all_urls>"
       ],
+      "run_at": "document_end",
       "js": [
-        // "lib/av-min.js",
-        // "lib/axios.min.js",
+        "lib/av-min.js",
+        "lib/axios.min.js",
         "bind.js"
       ]
     }

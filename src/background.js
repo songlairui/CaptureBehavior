@@ -26,8 +26,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   // chrome.tabs.executeScript({
   //   code: 'document.body.style.backgroundColor="red"'
   // });
-  // chrome.tabs.executeScript(null, {file: "lib/av-min.js"});
-  // chrome.tabs.executeScript(null, {file: "lib/axios.min.js"});
+  chrome.tabs.executeScript(null, {file: "lib/av-min.js"});
+  chrome.tabs.executeScript(null, {file: "lib/axios.min.js"});
   // chrome.tabs.executeScript(null, {file: "caplarry.js"});
-  chrome.tabs.executeScript(null, {file: "bind.js"});
+  chrome.tabs.executeScript(null, {file: "unbind.js"});
 });
