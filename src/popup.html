@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>标识当前页</title>
+  <link rel="stylesheet" href="styles/popup.css">
+</head>
+
+<body>
+  <main>
+    <div class="meta">
+      <div class="url-block">
+        <div class="icon">·</div>
+        <div class="domain">LOCATION</div>
+      </div>
+      <div class="trunk">
+        <div class="icon">·</div>
+        <div class="trunk-name">TRUNK</div>
+      </div>
+    </div>
+    <div class="title block line-bottom">
+      <div class="label">Title</div>
+      <div class="input-title" contenteditable="true"></div>
+    </div>
+    <div class="meta2 line-bottom">
+      <div class="short-meta block">
+        <div class="label">Short info</div>
+        <div class="input-short-info" contenteditable="true"></div>
+      </div>
+      <div class="long-meta block line-left">
+        <div class="label">Long info</div>
+        <div class="input-long-info" contenteditable="true"></div>
+      </div>
+    </div>
+    <div class="catalog block line-bottom">
+      <div class="label">Catalog</div>
+      <div class="input-catalog" contenteditable="true"></div>
+    </div>
+    <div class="description block filled">
+      <div class="label">description</div>
+      <div class="input-description" contenteditable="true" data-multi='true' multi>我做不到的是：</div>
+    </div>
+    <button>Send</button>
+  </main>
+  <!--<script src="lib/vue.min.js"></script>-->
+  <script src="lib/av-min.js"></script>
+  <script src="lib/axios.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>

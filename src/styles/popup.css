@@ -1,0 +1,92 @@
+*{
+  box-sizing: border-box;
+}
+main, main div{
+  display: flex;
+}
+
+main, .block{
+  flex-flow: column nowrap;
+  flex:1;
+}
+
+/* 长点儿的信息，宽度长一些 */
+.long-meta{
+  flex:2
+}
+
+/* 文字录入区域，和边框之间留白 */
+.block{
+  padding:.2em;
+  position: relative;
+  z-index: 1;
+  font-size:16px;
+}
+/* 输入区域，添加变化 */
+/* 输入区域，只在block之下*/
+
+.block .label{
+  position: absolute;
+  top:16px;;left:0;
+  z-index: -1;
+  padding: .2em;
+  color: #888;
+  transition: all .3s;
+}
+  /* 填入内容的block，更改label样式  */
+.block.filled .label{
+  font-size:.8em;
+  color: #00F;
+  font-weight: 700;
+  top:0;
+
+}
+
+.block [class^='input-'] {
+  padding-top:16px;
+  outline: none;
+  max-width: 240px;
+  display: block;
+}
+
+.description [class^='input-']{
+  min-height: 4em;
+  white-space: pre;
+  word-break: break-all;
+}
+/* 可输入的div，空值也有高度 */
+.block [class^='input-']::before{
+  content:'';
+}
+
+/* 顶上的两个胶囊形状 */
+.meta>div{
+  border-radius: 15px;
+  height:30px;
+  line-height: 30px;
+  border: thin darkgray solid;
+  min-width: 120px;
+  margin:5px 10px;
+  padding: 0px 10px;
+  cursor: pointer
+}
+
+.meta>div>.icon{
+  width: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 添加边框 */
+.line-bottom{
+  border-bottom: thin solid darkgray;
+}
+.line-top{
+  border-top: thin solid darkgray;
+}
+.line-left{
+  border-left: thin solid darkgray;
+}
+.line-right{
+  border-right: thin solid darkgray;
+}
