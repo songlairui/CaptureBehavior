@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Options for Capture</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      display: flex;
+      flex-flow: column nowrap;
+      max-width: 480px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    input {
+      font-size: 2em;
+      margin: .5em 0
+    }
+
+    button {
+      border: none;
+      background: darkgray;
+      color: white;
+      font-size: 2em;
+      cursor: pointer;
+      margin: .5em 0;
+    }
+
+    .tip {
+      margin: .5em;
+      padding: .5em;
+      border: thin solid silver;
+    }
+    .tip::before{content:''}
+  </style>
+</head>
+
+<body>
+  <h3>Leancloud Keys</h3>
+  <blockquote><pre>
+    Demo
+    AppId: LRFvEGR2zUEJ5JDyaSaVtwIB-gzGzoHsz
+    AppKey: hyXKUvdrhQO35tmiXWq8w3gz
+    </pre></blockquote>
+  <input type="text" id="ak" name="ak" placeholder="appid">
+  <input type="text" id="sk" name="sk" placeholder="appkey">
+  <button class='save'>Save</button>
+  <button class='clear'>Clear</button>
+  <h3> Test Keys</h3>
+  <button class='test'>Test</button>
+  <div class="tip"></div>
+  <script src="lib/av-min.js"></script>
+  <script src="options.js"></script>
+</body>
+
+</html>
