@@ -10,7 +10,7 @@ function bind() {
   a = document.getElementsByClassName('submit-box');
   ta = document.getElementsByTagName('textarea');
   if (a[0] && ta[0]) {
-    console.info('已获取元素', a[0], ta[0])
+    // console.info('已获取元素', a[0], ta[0])
     var APP_ID = 'F6hbjpqohXN2dboAG0z5YOTp-gzGzoHsz';
     var APP_KEY = 'sxTFm5XXDdf5aFJQbaCTNCiG';
     AV.init({
@@ -18,31 +18,22 @@ function bind() {
       appKey: APP_KEY
     });
 
-
     a[0].addEventListener("click",
       function () {
-        console.log("btn click");
-      }, false);
-    a[0].addEventListener("mouseover",
-      function () {
-        console.log("btn over");
-      }, false);
-    a[0].onclick = function () {
-      var comment = ta[0].value
-      console.log('输入了' + comment + '.')
-      console.log('当前的地址：', window.location.href)
-      console.info('表述：', "x天x午x点，我在x网站的文章x下发表了[抖机灵]评论。")
+        var comment = ta[0].value
+        console.log('输入了' + comment + '.')
+        console.log('当前的地址：', window.location.href)
+        console.info('表述：', "x天x午x点，我在x网站的文章x下发表了[抖机灵]评论。")
 
-      var TraceObject = AV.Object.extend('TraceObject');
-      var traceObject = new TraceObject();
-      traceObject.save({
-        comment,
-        url: window.location.href
-      }).then(function (object) {
-        console.log('已录入')
-      })
-
-    }
+        var TraceObject = AV.Object.extend('TraceObject');
+        var traceObject = new TraceObject();
+        traceObject.save({
+          comment,
+          url: window.location.href
+        }).then(function (object) {
+          console.log('已录入')
+        })
+      });
     ta[0].onfocus = function () {
       console.log('准备输入')
     }

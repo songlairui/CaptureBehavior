@@ -90,3 +90,18 @@ main, .block{
 .line-right{
   border-right: thin solid darkgray;
 }
+
+.alert{
+  font-size:1em;line-height: 1.4em;
+  padding:.5em;
+  /*border-radius: 5px;*/
+  margin:.5em 0;
+  /*border: thin cadetblue solid;*/
+  color: cornflowerblue;
+  background: navajowhite;
+  text-decoration: underline;
+  font-weight: 700;
+}
+.alert::before{
+  content:''
+}

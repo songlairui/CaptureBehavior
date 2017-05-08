@@ -169,8 +169,12 @@ function trimContent(str, multi) {
 function collectNew() {
   console.info('collectNew')
   if (!collectData.title || !collectData.url) {
+    msg('无内容')
     return console.error('无内容')
   }
+  // console.info(collectData.description)
+  // console.log(collectData.description.replace('\n','\\n'))
+  // return
   // 声明一个 Todo 类型
   var DailyDone = AV.Object.extend('DailyDone')
   // 新建一个 Todo 对象
@@ -184,9 +188,11 @@ function collectNew() {
   dailydone.save().then(function (dailydone) {
     // 成功保存之后，执行其他逻辑.
     console.log('New object created with objectId: ' + dailydone.id)
+    msg('New object created with objectId: ' + dailydone.id)
   }, function (error) {
     // 异常处理
     console.error('Failed to create new object, with error message: ' + error.message)
+    msg('Failed to create new object, with error message: ' + error.message)
   });
 }
 
@@ -207,4 +213,10 @@ function loadKeys(cb) {
     console.error(err)
     cb(err)
   })
+}
+
+function msg(str){
+  if(typeof str !== 'string') return
+  let alertEl = document.querySelector('.alert')
+  alertEl.textContent = str
 }
