@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard - Behavior</title>
+  <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+
+<body>
+
+  <nav>
+    <div class="line1">
+      <dl>
+        <dt>User: <span id="username">{{ name }}</span></dt>
+        <dd>
+          <ul>
+            <li>Behaviors</li>
+            <li class='load'>Load List 1</li>
+          </ul>
+        </dd>
+      </dl>
+    </div>
+    <div class="line2">------</div>
+  </nav>
+  <section id='content'>
+    <div class="sider"></div>
+    <main></main>
+  </section>
+  <script src="lib/av-min.js"></script>
+  <script src="lib/axios.min.js"></script>
+  <script src='dashboard.js'></script>
+
+</body>
+
+</html>

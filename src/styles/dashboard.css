@@ -1,0 +1,32 @@
+html,body{
+  margin:0;padding:0;
+}
+*{
+  box-sizing: border-box
+}
+html{
+  display: flex;
+  justify-content: center;
+}
+body{
+  flex:1;
+  max-width: 1024px;
+}
+
+nav{
+  border-top:medium cadetblue solid;
+  border-bottom: thin sienna solid;
+  box-shadow: 0 0 2px rgba(0,0,0,.3)
+}
+section#content{
+  display: flex;
+}
+section#content>.sider{
+  flex:1;
+  border-right:thin solid salmon
+}
+
+section#content>main{
+  flex:2;
+  min-height: 200px;
+}

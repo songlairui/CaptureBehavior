@@ -101,6 +101,7 @@ main, .block{
   background: navajowhite;
   text-decoration: underline;
   font-weight: 700;
+  word-break: break-all;
 }
 .alert::before{
   content:''

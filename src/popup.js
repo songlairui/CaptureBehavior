@@ -1,11 +1,11 @@
 var storage = chrome.storage.local;
-
+var lastCollected = {}
 var collectData = { url: '', title: '', catalog: '', description: '' }
+var commited = false
 
 
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('.send').addEventListener('click', collectNew)
-
   getCurrentTabUrl(function (url) {
     // urlEl.textContent = url
     // mySend.data.url = url
@@ -17,17 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   })
 
-  var optionsUrl = chrome.extension.getURL('options.html');
-  var optionsHtml = document.createElement('a')
-  // var attr = document.createAttribute('target')
-  // attr.nodeValue = '_blank'
-  optionsHtml.setAttribute('target', '_blank')
-  optionsHtml.href = optionsUrl
-  optionsHtml.textContent = 'Option Page'
-  document.body.append(optionsHtml)
+  insertHrefs()
+  initForm()
   // 初始化 keys
   loadKeys(function (err, result) {
-    optionsHtml.textContent += err ? ",wrong keys" : ", keys settled"
+    document.querySelector('.option').textContent += err ? ",wrong keys" : ", keys settled"
     let appId = result.ak;
     let appKey = result.sk;
     AV.init({ appId, appKey });
@@ -36,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 })
 
-document.addEventListener('input', function (e) {
+document.addEventListener('input', throttle(function (e) {
   // console.info(e.type, ' 来自 ', e.target, e.currentTarget)
   let inputEl = e.target
   let targetEl = inputEl.parentNode
@@ -47,7 +41,10 @@ document.addEventListener('input', function (e) {
   // setTimeout(function () {
   //   console.info(collectData[attr])
   // }, 0)
-})
+  commited = false
+  msg(`currentData: ${JSON.stringify(collectData)}`)
+  snapForms({ collectData, commited })
+}))
 
 document.addEventListener('keypress', function (e) {
   let inputEl = e.target
@@ -189,6 +186,7 @@ function collectNew() {
     // 成功保存之后，执行其他逻辑.
     console.log('New object created with objectId: ' + dailydone.id)
     msg('New object created with objectId: ' + dailydone.id)
+    commited = true
   }, function (error) {
     // 异常处理
     console.error('Failed to create new object, with error message: ' + error.message)
@@ -214,9 +212,184 @@ function loadKeys(cb) {
     cb(err)
   })
 }
-
-function msg(str){
-  if(typeof str !== 'string') return
+/**
+ * 显示提示信息
+ * @param  {} str
+ */
+function msg(str) {
+  if (typeof str !== 'string') return
   let alertEl = document.querySelector('.alert')
   alertEl.textContent = str
+}
+/**
+ * 节流函数
+ * @param  {} func   要执行的函数
+ * @param  {} delay  时间间隔之内，如果再次触发，则重置计时器
+ * @param  {} max    触发事件，发现上次执行时间比当前超过max，则立即执行。
+*/
+function throttle(func, delay, max) {
+  delay = +delay || 400
+  max = +max || 1200
+  var lastCallStamp = 0
+  var timer
+  function throttle() {
+    var _this = this
+    var args = arguments
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+      // console.info(throttle.lastCallStamp)
+      if (Date.now() - throttle.lastCallStamp > max) {
+        // console.info(`   到达 ${max} 时长，执行一次`)
+        throttle.lastCallStamp = Date.now()
+        func.apply(_this, args)
+        return
+      }
+      // console.info(`        timer还在，不执行`)
+    }
+    timer = setTimeout(function () {
+      clearTimeout(timer)
+      timer = null
+      throttle.lastCallStamp = Date.now()
+      // console.info(`    更新了`, throttle.lastCallStamp)
+      func.apply(_this, args)
+    }, delay)
+  }
+  throttle.lastCallStamp = lastCallStamp
+  return throttle
+}
+
+var snapForms = async function (obj) {
+  console.info('执行了一次snapForms')
+  let result = []
+  await new Promise((r, j) => {
+    storage.set(obj, function () {
+      console.info('存了', obj)
+      r()
+    })
+  })
+  // for (key in obj) {
+  //   console.info('存', { [key]: obj[key] })
+  //   await new Promise((r, j) => {
+  //     storage.set({ [key]: obj[key] }, function () {
+  //       result.push[key]
+  //       r()
+  //     })
+  //   })
+  // }
+  console.info('finished', result.join(','))
+}
+
+var initForm = async function () {
+  // var initForm = function () {
+  await new Promise((r, j) => {
+    storage.get('commited', function (data) {
+      if (typeof data.commited !== 'undefined') {
+        commited = data.commited
+        console.info(commited)
+        r()
+      } else {
+        j()
+      }
+    })
+  }).catch(err => { console.error(err) })
+  await new Promise((r, j) => {
+    storage.get('collectData', function (data) {
+      if (data.collectData) {
+        lastCollected = data.collectData
+        console.info(lastCollected)
+        r()
+      } else {
+        j()
+      }
+    })
+  },
+    () => {
+      console.info('rejected1')
+      return ''
+    }
+  ).catch(err => { console.error(err) })
+  console.info(commited, lastCollected, collectData)
+  // Promise.resolve()
+  //   .then(() =>
+  //     new Promise((r, j) => {
+  //       storage.get('commited', function (data) {
+  //         console.info(data)
+  //         if (typeof data.commited !== 'undefined') {
+  //           commited = data.commited
+  //           r()
+  //         } else {
+  //           j()
+  //         }
+  //       })
+  //     })
+  //   )
+  //   .then(() =>
+  //     new Promise((r, j) => {
+  //       storage.get('collectData', function (data) {
+  //         if (data.collectData) {
+  //           lastCollected = data.collectData
+  //           console.info(lastCollected)
+  //           r()
+  //         } else {
+  //           j()
+  //         }
+  //       })
+  //     }),
+  //   () => {
+  //     console.info('rejected1')
+  //     return ''
+  //   }
+  //   )
+  //   .then(() => {
+  //     console.info(commited, lastCollected, collectData)
+  //   },
+  //   () => {
+  //     console.info('rejected2')
+  //     return ''
+  //   }).then(function(){
+
+  //   })
+
+
+  if (!commited) {
+    collectData = lastCollected
+    for (key in collectData) {
+      document.querySelector(`[data-name='${key}']`).textContent = collectData[key]
+    }
+  }
+}
+// test function
+// var snapForms = async function (obj) {
+//   let result = []
+//   for (keys in obj) {
+//     await new Promise((r, j) => {
+//       result.push(keys)
+//       console.info(result)
+//       setTimeout(r, 300)
+//     })
+//   }
+//   console.info('finished', result.join(','))
+// }
+// snapForms({a:{b:1,c:2},d:3})
+
+function insertHrefs() {
+  var oFragment = document.createDocumentFragment()
+  var optionsHtml = document.createElement('a')
+  // var attr = document.createAttribute('target')
+  // attr.nodeValue = '_blank'
+  optionsHtml.setAttribute('target', '_blank')
+  optionsHtml.classList.add('option')
+  optionsHtml.href = chrome.extension.getURL('options.html')
+  optionsHtml.textContent = 'Option Page'
+
+  var dashboardEl = document.createElement('a')
+  dashboardEl.href = chrome.extension.getURL('dashboard.html')
+  dashboardEl.setAttribute('target', '_blank')
+  dashboardEl.textContent = 'dashboard'
+
+  oFragment.append(dashboardEl)
+  oFragment.append(document.createTextNode('  -  '))
+  oFragment.append(optionsHtml)
+  document.body.append(oFragment)
 }
