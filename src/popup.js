@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('.send').addEventListener('click', collectNew)
 
 
-  insertHrefs()
+  initBtns()
   initForm()
   // 初始化 keys
   loadKeys(function (err, result) {
-    document.querySelector('.option').textContent += err ? ",wrong keys" : ", keys settled"
+    msg(err ? ",wrong keys" : ", keys settled")
+    // document.querySelector('.option').textContent += err ? ",wrong keys" : ", keys settled"
     let appId = result.ak;
     let appKey = result.sk;
     AV.init({ appId, appKey });
@@ -31,7 +32,8 @@ document.addEventListener('input', throttle([function (e) {
   //   console.info(collectData[attr])
   // }, 0)
   commited = false
-  msg(`currentData: ${JSON.stringify(collectData)}`)
+  // msg(`currentData: ${JSON.stringify(collectData)}`)
+  msg('.', '+')
   snapForms({ collectData, commited })
 }, function (e) {
   let inputEl = e.target
@@ -181,7 +183,7 @@ function collectNew() {
     console.log('New object created with objectId: ' + dailydone.id)
     msg('New object created with objectId: ' + dailydone.id)
     commited = true
-    snapForms({commited})
+    snapForms({ commited })
   }, function (error) {
     // 异常处理
     console.error('Failed to create new object, with error message: ' + error.message)
@@ -211,10 +213,11 @@ function loadKeys(cb) {
  * 显示提示信息
  * @param  {} str
  */
-function msg(str) {
+function msg(str, type) {
   if (typeof str !== 'string') return
+  type = type || undefined
   let alertEl = document.querySelector('.alert')
-  alertEl.textContent = str
+  alertEl.textContent = type ? alertEl.textContent + str : str
 }
 /**
  * 节流函数
@@ -283,7 +286,7 @@ var initForm = async function () {
     storage.get('commited', function (data) {
       if (typeof data.commited !== 'undefined') {
         commited = data.commited
-        console.info('commited:',commited)
+        console.info('commited:', commited)
         r()
       } else {
         j()
@@ -377,26 +380,14 @@ var initForm = async function () {
 // }
 // snapForms({a:{b:1,c:2},d:3})
 
-function insertHrefs() {
-  var oFragment = document.createDocumentFragment()
-  var optionsHtml = document.createElement('a')
-  // var attr = document.createAttribute('target')
-  // attr.nodeValue = '_blank'
-  optionsHtml.setAttribute('target', '_blank')
-  optionsHtml.classList.add('option')
-  optionsHtml.href = chrome.extension.getURL('options.html')
-  optionsHtml.textContent = 'Option Page'
+function initBtns() {
 
-  var dashboardEl = document.createElement('a')
-  dashboardEl.href = chrome.extension.getURL('dashboard.html')
-  dashboardEl.setAttribute('target', '_blank')
-  dashboardEl.textContent = 'dashboard'
-
-  oFragment.append(dashboardEl)
-  oFragment.append(document.createTextNode('  -  '))
-  oFragment.append(optionsHtml)
-  document.body.append(oFragment)
+  var optionsBtn = document.querySelector('.meta .options-title').querySelector('a')
+  var dashboardBtn = document.querySelector('.meta .dashboard-title').querySelector('a')
+  optionsBtn ? optionsBtn.setAttribute('href', chrome.extension.getURL('options.html')) : console.info('none optBtn')
+  dashboardBtn ? dashboardBtn.setAttribute('href', chrome.extension.getURL('dashboard.html')) : console.info('none dbBtn')
 }
+
 
 function initStyle() {
   targets = document.querySelectorAll('[data-name]')
