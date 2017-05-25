@@ -2,20 +2,12 @@ var storage = chrome.storage.local;
 var lastCollected = {}
 var collectData = { url: '', title: '', catalog: '', description: '' }
 var commited = false
+var lasturl = ''
 
 
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('.send').addEventListener('click', collectNew)
-  getCurrentTabUrl(function (url) {
-    // urlEl.textContent = url
-    // mySend.data.url = url
-    collectData.url = url
-    // 事件委托，只使用一个监听器
-    // new LabelMe()
-    var urlEl = document.querySelector('.url')
-    // 监听一个 block 区域
 
-  })
 
   insertHrefs()
   initForm()
@@ -30,12 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 })
 
-document.addEventListener('input', throttle(function (e) {
+document.addEventListener('input', throttle([function (e) {
   // console.info(e.type, ' 来自 ', e.target, e.currentTarget)
   let inputEl = e.target
-  let targetEl = inputEl.parentNode
-  if (!targetEl) return
-  inputEl.textContent !== "" ? targetEl.classList.add('filled') : targetEl.classList.remove('filled')
   let attr = inputEl.dataset.name
   collectData[attr] = inputEl.innerHTML
   // setTimeout(function () {
@@ -44,7 +33,12 @@ document.addEventListener('input', throttle(function (e) {
   commited = false
   msg(`currentData: ${JSON.stringify(collectData)}`)
   snapForms({ collectData, commited })
-}))
+}, function (e) {
+  let inputEl = e.target
+  let targetEl = inputEl.parentNode
+  if (!targetEl) return
+  inputEl.textContent !== "" ? targetEl.classList.add('filled') : targetEl.classList.remove('filled')
+}]))
 
 document.addEventListener('keypress', function (e) {
   let inputEl = e.target
@@ -187,6 +181,7 @@ function collectNew() {
     console.log('New object created with objectId: ' + dailydone.id)
     msg('New object created with objectId: ' + dailydone.id)
     commited = true
+    snapForms({commited})
   }, function (error) {
     // 异常处理
     console.error('Failed to create new object, with error message: ' + error.message)
@@ -224,10 +219,11 @@ function msg(str) {
 /**
  * 节流函数
  * @param  {} func   要执行的函数
+ * @param  {} func2  要每次都立即执行的函数
  * @param  {} delay  时间间隔之内，如果再次触发，则重置计时器
  * @param  {} max    触发事件，发现上次执行时间比当前超过max，则立即执行。
 */
-function throttle(func, delay, max) {
+function throttle([func, func2], delay, max) {
   delay = +delay || 400
   max = +max || 1200
   var lastCallStamp = 0
@@ -235,6 +231,7 @@ function throttle(func, delay, max) {
   function throttle() {
     var _this = this
     var args = arguments
+    func2 ? func2.apply(_this, args) : null
     if (timer) {
       clearTimeout(timer)
       timer = null
@@ -260,7 +257,7 @@ function throttle(func, delay, max) {
 }
 
 var snapForms = async function (obj) {
-  console.info('执行了一次snapForms')
+  console.info('存储了', obj)
   let result = []
   await new Promise((r, j) => {
     storage.set(obj, function () {
@@ -286,7 +283,7 @@ var initForm = async function () {
     storage.get('commited', function (data) {
       if (typeof data.commited !== 'undefined') {
         commited = data.commited
-        console.info(commited)
+        console.info('commited:',commited)
         r()
       } else {
         j()
@@ -355,9 +352,16 @@ var initForm = async function () {
   if (!commited) {
     collectData = lastCollected
     for (key in collectData) {
-      document.querySelector(`[data-name='${key}']`).textContent = collectData[key]
+      let tmpEl = document.querySelector(`[data-name='${key}']`)
+      tmpEl.textContent = collectData[key]
+      collectData[key] ? tmpEl.parentNode.classList.add('filled') : tmpEl.parentNode.classList.remove('filled')
     }
   }
+  lasturl = lastCollected.url || ''
+  // 初始化操作的最后，录入当前页面url
+  getCurrentTabUrl(function (url) {
+    collectData.url = url
+  })
 }
 // test function
 // var snapForms = async function (obj) {
@@ -392,4 +396,12 @@ function insertHrefs() {
   oFragment.append(document.createTextNode('  -  '))
   oFragment.append(optionsHtml)
   document.body.append(oFragment)
+}
+
+function initStyle() {
+  targets = document.querySelectorAll('[data-name]')
+  for (var i = 0; i < targets.length; i++) {
+    let p = targets[i].parentNode
+    targets.textContent === "" ? p.classList.add('filled') : p.classList.remove('filled')
+  }
 }

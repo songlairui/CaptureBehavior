@@ -1,6 +1,7 @@
-html,body{
+html,body,ul,ol,li,h1,h2,h3,h4,h5,h6,p,hr{
   margin:0;padding:0;
 }
+li{list-style:none;}
 *{
   box-sizing: border-box
 }
@@ -11,6 +12,7 @@ html{
 body{
   flex:1;
   max-width: 1024px;
+  font-size:14px;
 }
 
 nav{
@@ -22,11 +24,57 @@ section#content{
   display: flex;
 }
 section#content>.sider{
-  flex:1;
+  flex:0 120px;
   border-right:thin solid salmon
 }
 
 section#content>main{
-  flex:2;
+  flex:4;
   min-height: 200px;
+  padding:1rem;
+}
+
+/* 列表 */
+
+main>ul{
+  display: flex;
+  flex-flow:column;
+  border:thin solid lightgray;
+  border-radius: 6px;
+}
+main > ul > li {
+  width:100%;
+  display: flex;
+  padding: .4rem 0;
+  border-bottom:thin solid lightgray;
+}
+main > ul > li:nth-child(odd){
+  background: snow;
+}
+main > ul > li:first-child{
+  border-radius:6px 6px 0 0 ;
+  background: lightgreen
+}
+main > ul > li:last-child{
+  border-radius: 0 0 6px 6px;
+  border-bottom:none
+}
+main > ul > li > span {
+  flex:1;
+  line-height: 1.4rem;
+  padding:0 .4rem;
+  cursor:pointer;
+}
+
+main > ul > li > span.action{
+  flex:0 0 4em;
+  cursor:pointer;
+}
+main > ul > li > span.title{
+  flex:2
+}
+main > ul > li > span.description{
+  flex:5;
+  white-space:pre-wrap;
+  word-break:break-all
 }

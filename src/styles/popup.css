@@ -51,7 +51,7 @@ main, .block{
 
 .description [class^='input-']{
   min-height: 4em;
-  white-space: pre;
+  white-space: pre-wrap;
   word-break: break-all;
 }
 /* 可输入的div，空值也有高度 */

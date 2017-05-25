@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <title>Dashboard - Behavior</title>
   <link rel="stylesheet" href="styles/dashboard.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--<script src="lib/vue.min.js"></script>-->
 </head>
 
 <body>
@@ -24,8 +26,15 @@
     <div class="line2">------</div>
   </nav>
   <section id='content'>
-    <div class="sider"></div>
-    <main></main>
+    <div class="sider" id='app'>{{msg}} a</div>
+    <main>
+      <ul>
+        <li><span class="catalog">catalog</span><span class="title">title</span>
+          <span
+            class="description">description
+            </span><span class="short">short</span><span class="long">long</span><span class="action">action</span> </li>
+      </ul>
+    </main>
   </section>
   <script src="lib/av-min.js"></script>
   <script src="lib/axios.min.js"></script>
