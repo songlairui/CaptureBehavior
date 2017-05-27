@@ -1,4 +1,7 @@
-var storage = chrome.storage.local;
+var storage
+if (chrome && chrome.storage) {
+  storage = chrome.storage.local
+}
 let dataStore = new Map()
 let renderedItem = new Map()
   // 初始化 keys
@@ -51,13 +54,21 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadKeys(cb) {
   let ak, sk
   Promise.resolve().then(() => new Promise(function(resolve, reject) {
-    storage.get('ak', function(items) {
-      items.ak ? resolve(items.ak) : reject('no ak')
-    })
+    if (!storage) {
+      resolve('LRFvEGR2zUEJ5JDyaSaVtwIB-gzGzoHsz')
+    } else {
+      storage.get('ak', function(items) {
+        items.ak ? resolve(items.ak) : reject('no ak')
+      })
+    }
   })).then((ak) => new Promise(function(resolve, reject) {
-    storage.get('sk', function(items) {
-      items.sk ? resolve({ ak, sk: items.sk }) : reject('has ak, but no sk')
-    })
+    if (!storage) {
+      resolve({ ak, sk: 'hyXKUvdrhQO35tmiXWq8w3gz' })
+    } else {
+      storage.get('sk', function(items) {
+        items.sk ? resolve({ ak, sk: items.sk }) : reject('has ak, but no sk')
+      })
+    }
   })).then(function(result) {
     cb(null, result)
   }).catch(function(err) {

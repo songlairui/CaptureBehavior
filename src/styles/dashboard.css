@@ -74,7 +74,7 @@ body>div * {
   justify-content: flex-start;
   align-items: flex-start;
   position: relative;
-  padding-top: 3rem;
+  padding-top: 5rem;
 }
 
 .dashboard {
@@ -343,7 +343,8 @@ body.focus main>ul>li div.title>div {
 /* 顶部按钮 */
 
 .detail>header {
-  height: 3rem;
+  height: 5rem;
+  padding-top: 2rem;
   position: absolute;
   top: 0;
   left: 0;
@@ -351,7 +352,16 @@ body.focus main>ul>li div.title>div {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 1rem;
+  padding-left: 2rem;
+}
+
+.detail>header button {
+  border: thin solid #F5EEDC;
+  border-radius: .3rem;
+  background: #FDF6E3;
+  color: #777;
+  padding: .5rem .7rem;
+  cursor: pointer
 }
 
 
