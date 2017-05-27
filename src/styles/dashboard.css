@@ -1,80 +1,247 @@
-html,body,ul,ol,li,h1,h2,h3,h4,h5,h6,p,hr{
-  margin:0;padding:0;
+html,
+body,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+hr {
+  margin: 0;
+  padding: 0;
 }
-li{list-style:none;}
-*{
+
+li {
+  list-style: none;
+}
+
+* {
   box-sizing: border-box
 }
-html{
+
+html {
+  width: 200%;
+  min-height: 100%;
   display: flex;
   justify-content: center;
-}
-body{
-  flex:1;
-  max-width: 1024px;
-  font-size:14px;
+  /*background: darkgreen;*/
+  background: linear-gradient(120deg, #597ADD, #4C2BBD);
 }
 
-nav{
-  border-top:medium cadetblue solid;
-  border-bottom: thin sienna solid;
-  box-shadow: 0 0 2px rgba(0,0,0,.3)
+body {
+  flex: 1;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  perspective: 2000px;
+  transform-style: preserve-3d;
 }
-section#content{
+
+
+/* 全部页面之外的布局 */
+
+body>div {
+  transition: all .4s;
+  transform-style: preserve-3d;
+  flex: 1;
+  margin: 3em;
+  max-width: 1024px;
+  min-height: 400px;
+  border-radius: .8rem;
+  /*padding: .8rem;*/
+  background: #EFF3F6;
+  box-shadow: 0 0 4px -1px rgba(0, 0, 0, .5), 0 10px 20px -5px rgba(0, 0, 0, .5);
+  min-width: 540px;
   display: flex;
 }
-section#content>.sider{
-  flex:0 120px;
-  border-right:thin solid salmon
+
+
+/* 继承 trasnform-style:preserve-3d */
+
+body>div * {
+  transform: translateZ(1px);
+  transform-style: inherit;
 }
 
-section#content>main{
-  flex:4;
-  min-height: 200px;
-  padding:1rem;
+.detail {}
+
+.dashboard {}
+
+body.focus .detail {
+  transform: translateX(-80%);
 }
+
+body.focus .dashboard {
+  transform: translate3d(-20%, 0, 300px) rotateY(70deg)
+}
+
+
+/* layout 布局 */
+
+.dashboard>nav {
+  flex: 0 0 10rem;
+  background: #272B34;
+  color: #EFF3F6;
+  border-radius: .8rem 0 0 .8rem;
+  border-bottom: thin lightcyan solid;
+}
+
+.dashboard>main {
+  flex: 1;
+  border-radius: 0 .8rem .8rem 0;
+  border-bottom: thin #272B34 solid;
+}
+
+
+/* ----- a 标签 加上标记 ------ */
+
+a {
+  position: relative
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 0px;
+  height: 0px;
+  border: 5px solid #6AE;
+  border-left: none;
+  border-bottom: none;
+  border-right-color: transparent;
+}
+
+a:hover,
+a:visited,
+a:link {
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+  color: #29A198
+}
+
+a:hover {
+  color: red
+}
+
+
+/* 侧边导航 */
+
+nav {
+  display: flex;
+  flex: 1
+}
+
+nav>ul {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+nav>ul>li {
+  flex: 0 0 30px;
+  padding: .5rem .5rem;
+  height: 30px;
+}
+
 
 /* 列表 */
 
-main>ul{
+main>ul {
   display: flex;
-  flex-flow:column;
-  border:thin solid lightgray;
+  flex-flow: column;
+  border: thin solid #ECE5D3;
   border-radius: 6px;
-}
-main > ul > li {
-  width:100%;
-  display: flex;
-  padding: .4rem 0;
-  border-bottom:thin solid lightgray;
-}
-main > ul > li:nth-child(odd){
-  background: snow;
-}
-main > ul > li:first-child{
-  border-radius:6px 6px 0 0 ;
-  background: lightgreen
-}
-main > ul > li:last-child{
-  border-radius: 0 0 6px 6px;
-  border-bottom:none
-}
-main > ul > li > span {
-  flex:1;
-  line-height: 1.4rem;
-  padding:0 .4rem;
-  cursor:pointer;
+  margin: 2rem;
+  z-index: 0;
+  background: #FDF6E3;
+  color: #777;
 }
 
-main > ul > li > span.action{
-  flex:0 0 4em;
-  cursor:pointer;
+main>ul>li {
+  width: 100%;
+  display: flex;
+  padding: .4rem 0;
+  /*border-bottom: thin solid #F5EEDC;*/
+  position: relative;
 }
-main > ul > li > span.title{
-  flex:2
+
+main>ul>li:nth-child(odd)>span {
+  background: #F5EEDC;
 }
-main > ul > li > span.description{
-  flex:5;
-  white-space:pre-wrap;
-  word-break:break-all
+
+main>ul>li:first-child {
+  border-radius: 6px 6px 0 0;
+  background: #ECE5D3;
+  font-weight: 700;
+  font-variant: small-caps;
+}
+
+main>ul>li:last-child {
+  border-radius: 0 0 6px 6px;
+  border-bottom: none
+}
+
+main>ul>li>span {
+  flex: 1;
+  display: flex;
+  line-height: 1.4rem;
+  padding: 0 .4rem;
+  cursor: pointer;
+}
+
+main>ul>li>span.action {
+  flex: 0 0 4em;
+  cursor: pointer;
+}
+
+main>ul>li>span.title {
+  flex: 2;
+  color: #333;
+  transform-origin: left;
+  transition: all 1s;
+}
+
+body.focus main>ul>li>span.title {
+  transform: rotateY(-70deg);
+}
+
+main>ul>li>span.url {
+  text-transform: capitalize;
+}
+
+main>ul>li>span a {
+  flex: 1;
+}
+
+main>ul>li>span.description {
+  position: absolute;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: white;
+  padding: .5rem;
+  border-radius: .5rem;
+  display: none;
+  z-index: 99;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  box-shadow: 0 5px 10px -3px rgba(0, 0, 0, .4)
+}
+
+main>ul>li:hover>span.title {
+  color: #000;
+}
+
+main>ul>li:hover>span.description {
+  display: block;
 }

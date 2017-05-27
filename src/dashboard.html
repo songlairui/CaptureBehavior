@@ -10,35 +10,53 @@
 </head>
 
 <body>
-
-  <nav>
-    <div class="line1">
-      <dl>
-        <dt>User: <span id="username">{{ name }}</span></dt>
-        <dd>
-          <ul>
-            <li>Behaviors</li>
-            <li class='load'>Load List 1</li>
-          </ul>
-        </dd>
-      </dl>
-    </div>
-    <div class="line2">------</div>
-  </nav>
-  <section id='content'>
-    <div class="sider" id='app'>{{msg}} a</div>
+  <div class="dashboard">
+    <nav>
+      <ul>
+        <li></li>
+        <li></li>
+        <li>
+          User:
+          <span id="username">{{ name }}</span>
+        </li>
+        <li></li>
+        <li>Behaviors</li>
+        <li>
+          <button class="load btn">Load List 1</button>
+        </li>
+      </ul>
+    </nav>
     <main>
       <ul>
-        <li><span class="catalog">catalog</span><span class="title">title</span>
-          <span
-            class="description">description
-            </span><span class="short">short</span><span class="long">long</span><span class="action">action</span> </li>
+        <li>
+          <div class="catalog">
+            <span>catalog</span>
+            <div class="title">
+              <span>title</span>
+              <div class="url">
+                <span>url</span>
+                <div class="createdAt">
+                  <span>createdAt</span>
+                  <div class="action">
+                    <span>action</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="title">title</span>
+            <span class="url">url</span>
+            <span class="createdAt">createdAt</span>
+            <span class="action">action</span>
+        </li>
       </ul>
     </main>
-  </section>
-  <script src="lib/av-min.js"></script>
-  <script src="lib/axios.min.js"></script>
-  <script src='dashboard.js'></script>
+    </div>
+    <div class="detail">
+      <header style="position:fixed;left:0;top:0;background:#fff;">Detail View</header>
+    </div>
+    <script src="lib/av-min.js"></script>
+    <script src="lib/axios.min.js"></script>
+    <script src='dashboard.js'></script>
 
 </body>
 
