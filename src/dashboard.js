@@ -20,6 +20,7 @@ window.addEventListener('resize', function() {
   `
 })
 document.body.addEventListener('click', function() {
+  return false
   if (document.body.classList.contains('focus')) {
     document.body.classList.remove('focus')
   } else {
@@ -48,6 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (targetLi) {
       console.info('找到了存在data-id的li', targetLi.dataset.id)
       console.info(dataStore.get(targetLi.dataset.id))
+      renderCard(dataStore.get(targetLi.dataset.id))
+      toggleFocus(1)
     }
     e.stopPropagation()
   })
@@ -143,7 +146,7 @@ function renderList(selector, force) {
   var tmpFrag = document.createDocumentFragment()
     // var ul = document.createElement('ul')
 
-  let col1 = ['catalog', 'title', 'url', 'createdAt']
+  let col1 = ['catalog', 'title', 'url', 'createdAt', 'action']
   let col2 = ['catalog', 'title', 'description', 'short', 'long', 'action']
   let dictFunc = {
     'url': function(el, data) {
@@ -156,9 +159,9 @@ function renderList(selector, force) {
       return null
     },
     'createdAt': function(el, data) {
-      el.textContent = (new Date(data[key]).toLocaleString()) || ' - '
+      el.textContent = (new Date(data.createdAt).toLocaleString()) || ' - '
     },
-    'fallback': function(el, data) {
+    'fallback': function(el, data, key) {
       el.textContent = data[key] || ' - '
     }
   }
@@ -185,32 +188,44 @@ function renderList(selector, force) {
       description: undefined,
       short: undefined,
       long: undefined,
-      createdAt: undefined
+      createdAt: undefined,
+      action: '+-'
     }, v.attributes, {
       createdAt: v.getCreatedAt()
     })
-    for (key of col1) {
-      let tmpSpan = document.createElement('span')
-      tmpSpan.className = key
-      if (key in dictFunc) {
-        dictFunc[key](tmpSpan, data)
-      } else {
-        dictFunc.fallback(tmpSpan, data)
-      }
-      li.appendChild(tmpSpan)
-    }
-    let supSpan = document.createElement('span')
-    supSpan.className = 'action'
-    supSpan.textContent = '+-'
-    li.appendChild(supSpan)
-      //     li.innerHTML = `\
-      // <span class='catalog'>${catalog}</span>\
-      // <span class='title'><a href='${url}' title='${url}'>${title}</a></span>\
-      // <span class='description'>${description}</span>\
-      // <span class='short'>${short}</span>\
-      // <span class='long'>${long}</span>\
-      // <span class='action'>+-</span>\
-      //       `
+    col1.reduce(function(prev, curr) {
+        // if (!data[curr]) return prev
+        let tmpDiv = document.createElement('div')
+        tmpDiv.className = curr
+        let tmpSpan = document.createElement('span')
+        if (curr in dictFunc) {
+          dictFunc[curr](tmpSpan, data)
+        } else {
+          dictFunc.fallback(tmpSpan, data, curr)
+        }
+        tmpDiv.appendChild(tmpSpan)
+        prev.appendChild(tmpDiv)
+        return tmpDiv
+      }, li)
+      // for (key of col1) {
+      //   let tmpSpan = document.createElement('span')
+      //   tmpSpan.className = key
+      //   if (key in dictFunc) {
+      //     dictFunc[key](tmpSpan, data)
+      //   } else {
+      //     dictFunc.fallback(tmpSpan, data)
+      //   }
+      //   li.appendChild(tmpSpan)
+      // }
+
+    //     li.innerHTML = `\
+    // <span class='catalog'>${catalog}</span>\
+    // <span class='title'><a href='${url}' title='${url}'>${title}</a></span>\
+    // <span class='description'>${description}</span>\
+    // <span class='short'>${short}</span>\
+    // <span class='long'>${long}</span>\
+    // <span class='action'>+-</span>\
+    //       `
     tmpFrag.appendChild(li)
     renderedItem.set(objId, li)
   })
@@ -261,4 +276,29 @@ function searchEl(Selector, el, elPool) {
     el = el.parentNode
   }
   return el
+}
+
+/**
+ * 切换显示状态
+ */
+function toggleFocus(status) {
+  if (document.body.classList.contains('focus')) {
+    if (status !== undefined && !!status) return
+    document.body.classList.remove('focus')
+  } else {
+    if (status !== undefined && !status) return
+    document.body.classList.add('focus')
+  }
+}
+
+/**
+ * 显示Card 内容
+ */
+function renderCard(data) {
+  let card = document.querySelector('.detail .card')
+  let item = ['short', 'title', 'long', 'description']
+  item.map(v => {
+    let target = card.querySelector(`[data-key='${v}']`)
+    target.textContent = data.get(v)
+  })
 }

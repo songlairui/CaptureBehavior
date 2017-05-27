@@ -25,6 +25,7 @@ li {
 
 html {
   width: 200%;
+  overflow-x: hidden;
   min-height: 100%;
   display: flex;
   justify-content: center;
@@ -55,7 +56,6 @@ body>div {
   min-height: 400px;
   border-radius: .8rem;
   /*padding: .8rem;*/
-  background: #EFF3F6;
   box-shadow: 0 0 4px -1px rgba(0, 0, 0, .5), 0 10px 20px -5px rgba(0, 0, 0, .5);
   min-width: 540px;
   display: flex;
@@ -69,16 +69,23 @@ body>div * {
   transform-style: inherit;
 }
 
-.detail {}
+.detail {
+  background: hsla(0, 0%, 100%, .2);
+  justify-content: flex-start;
+  align-items: center;
+}
 
-.dashboard {}
+.dashboard {
+  transform-origin: 10rem 50% 0;
+}
 
 body.focus .detail {
-  transform: translateX(-80%);
+  transform: translate3d(-105%, 0, -100px);
 }
 
 body.focus .dashboard {
-  transform: translate3d(-20%, 0, 300px) rotateY(70deg)
+  transform: translate3d(-25%, 0, -200px) rotateY(80deg);
+  box-shadow: 0 0 4px -10px rgba(0, 0, 0, .5), 0 10px 20px -50px rgba(0, 0, 0, .5);
 }
 
 
@@ -90,12 +97,19 @@ body.focus .dashboard {
   color: #EFF3F6;
   border-radius: .8rem 0 0 .8rem;
   border-bottom: thin lightcyan solid;
+  transition: all 1s;
+}
+
+body.focus .dashboard>nav {
+  transform: rotateY(-70deg);
+  transform-origin: right;
 }
 
 .dashboard>main {
   flex: 1;
   border-radius: 0 .8rem .8rem 0;
   border-bottom: thin #272B34 solid;
+  background: #EFF3F6;
 }
 
 
@@ -186,10 +200,17 @@ main>ul>li:first-child {
   font-variant: small-caps;
 }
 
+main>ul>li:first-child span {
+  background: #ECE5D3;
+}
+
 main>ul>li:last-child {
   border-radius: 0 0 6px 6px;
   border-bottom: none
 }
+
+
+/* 上一版 标题*/
 
 main>ul>li>span {
   flex: 1;
@@ -244,4 +265,108 @@ main>ul>li:hover>span.title {
 
 main>ul>li:hover>span.description {
   display: block;
+}
+
+
+/* 3D 效果标题 */
+
+main>ul>li div {
+  flex: 1;
+  display: flex;
+  line-height: 1.4rem;
+  padding: 0 .4rem;
+  cursor: pointer;
+  transform-origin: left;
+  transition: all 1s;
+}
+
+main>ul>li div>span {
+  flex: 1;
+  background: #F5EEDC;
+}
+
+main>ul>li div>div {
+  flex: 5
+}
+
+main>ul>li div>div>span {
+  flex: 2
+}
+
+main>ul>li div>div>div>span {
+  flex: 1
+}
+
+main>ul>li div>div>div {
+  flex: 3
+}
+
+main>ul>li div>div>div>div {
+  flex: 2
+}
+
+main>ul>li div>div>div>div>div {
+  flex: 1
+}
+
+body.focus main>ul>li div.title {
+  transform: rotateY(-80deg)
+}
+
+body.focus main>ul>li div.title>div {
+  transform: rotateY(100deg)
+}
+
+
+/* Article Card */
+
+.card {
+  flex: 0 0 200px;
+  display: flex;
+  flex-flow: column;
+  min-width: 240px;
+  min-height: 240px;
+  border-radius: .5rem;
+  box-shadow: 0 1px 5px -1px rgba(0, 0, 0, .4);
+  background: #F5EEDC;
+  color: #777;
+  margin: 2rem;
+}
+
+.card>.img {
+  background: lightgoldenrodyellow;
+  min-height: 120px;
+}
+
+.card>.img:first-child {
+  border-radius: .5rem .5rem 0 0;
+}
+
+.card>[class^='meta'] {
+  font-variant: small-caps;
+  padding: .7rem;
+  text-align: center;
+  font-size: .8rem;
+}
+
+.card>.title {
+  text-transform: uppercase;
+  padding: 0rem .5rem;
+  text-align: center;
+  color: #333
+}
+
+.card>.description {
+  white-space: pre-wrap;
+  padding: 1rem 1rem 2rem;
+  color: #333;
+  background: #FDF6E3;
+}
+
+.card>.description:last-child {
+  border-radius: 0 0 .5rem .5rem;
+}
+
+.act {
+  flex: 1
 }
