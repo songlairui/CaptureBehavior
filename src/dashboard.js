@@ -3,34 +3,17 @@ let dataStore = new Map()
 let renderedItem = new Map()
   // 初始化 keys
 let inited = false
-window.addEventListener('resize', function() {
-  console.info('resize')
-  let target = document.querySelector('.detail header')
-  let html0 = document.documentElement
-  let html1 = document.querySelector('html')
-  let body = document.querySelector('body')
-  let t1 = document.querySelector('.detail')
-  let t2 = document.querySelector('.dashboard')
-  target.textContent = `
-    ${html0.clientWidth}
-    ${html1.clientWidth}
-    ${body.clientWidth}
-    ${t1.clientWidth}
-    ${t2.clientWidth}
-  `
-})
-document.body.addEventListener('click', function() {
-  return false
-  if (document.body.classList.contains('focus')) {
-    document.body.classList.remove('focus')
-  } else {
-    document.body.classList.add('focus')
-  }
-})
+
+
 document.addEventListener('DOMContentLoaded', function() {
   loadBasicList()
   document.querySelector('.load').addEventListener('click', function() {
     loadBasicList()
+  })
+  document.querySelector('.detail').addEventListener('click', function(e) {
+    if (e.target.matches('button.reset')) {
+      toggleFocus(0)
+    }
   })
   document.querySelector('main').addEventListener('click', function(e) {
     // window.tmp2 = e.target
@@ -126,7 +109,20 @@ function loadBasicList() {
       var query = new AV.Query('DailyDone')
       query.find().then(results => {
         // console.info(results)
-        // window.tmp = results
+        window.tmp0 = results
+          // 假装全量获取数据，同步已删除的数据
+        let tmp = results.map(v => v.getObjectId())
+        for ([key] of dataStore) {
+          if (tmp.indexOf(key) === -1) {
+            // 取到的数据中，
+            console.info('删除一个数据')
+            renderedItem.get(key).remove()
+            renderedItem.delete(key)
+            dataStore.delete(key)
+          } else {
+            console.info('有，')
+          }
+        }
         results.map(v => {
           dataStore.set(v.getObjectId(), v)
         })

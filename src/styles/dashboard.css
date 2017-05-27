@@ -72,7 +72,9 @@ body>div * {
 .detail {
   background: hsla(0, 0%, 100%, .2);
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 3rem;
 }
 
 .dashboard {
@@ -282,7 +284,18 @@ main>ul>li div {
 
 main>ul>li div>span {
   flex: 1;
+  display: flex;
+  align-items: center;
+  padding-left: .6rem;
   background: #F5EEDC;
+}
+
+main>ul>li:nth-child(odd) div>span {
+  background: rgba(0, 0, 0, .05)
+}
+
+main>ul>li:nth-child(1) div>span {
+  background: rgba(255, 100, 0, 0.05)
 }
 
 main>ul>li div>div {
@@ -318,10 +331,28 @@ body.focus main>ul>li div.title>div {
 }
 
 
+/* ------   .detail   ------- */
+
+
+/* 顶部按钮 */
+
+.detail>header {
+  height: 3rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+
 /* Article Card */
 
 .card {
-  flex: 0 0 200px;
+  flex: 0 0 23rem;
   display: flex;
   flex-flow: column;
   min-width: 240px;
