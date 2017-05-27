@@ -14,9 +14,24 @@
 Chrome Extension 加载未打包的扩展 ，选择src文件夹
 
 ## Preview
-插件打开，和内容输入    
-![PreviewOpen](./preview.gif)
 
+插件打开，和内容输入    
+![PreviewOpen](./preview.gif)  
+Dashboard 列表  
+![Dashboard List](./screenshot/dash-list.png) 
+
+Dashboard 卡片信息  
+![Dashboard Card Detail](./screenshot/dash-card.png) 
+  3D transform, 以及有意思的自动生成特定HTML的Js处理逻辑。
+
+## 使用的技巧  
+
+1. Chrome 插件 使用 promise 从 chrome.store 读取存储的信息
+1. 在popup页面写了 async 函数，用来完成存储数据
+1. 在popup页面使用了节流函数
+2. 使用了Map数据类型，将有可能要操作的dom的内存指向，直接存在里面。做逻辑判断时，可以使用 for ... of 来遍历
+3. 使用了事件委托，创建了辅助函数 searchEl 来递归查找所需要的元素
+4. 部分使用JsDoc注释
 
 # TODO
 
@@ -25,9 +40,15 @@ Chrome Extension 加载未打包的扩展 ，选择src文件夹
 - [x] 页面记住未提交数据
   - [ ] 录入区域清空
 - [ ] 约定catalog
-- popup 页面
+- [ ] popup 页面
  - [ ] 提示信息显示优化
   - [ ] 加入心跳效果。使用了节流函数，debug的信息能看出来节流效果。信息内容不适合稳定版本显示，但节流效果可以显示。
+- [ ] dashboard 页面
+ - [x] 列表显示
+ - [x] 界面交互设计
+  - [ ] 响应式尺寸关系
+ - [ ] 数据分页
+ - [ ] 数据增 改
 
 
 # 额外的说明  
