@@ -1,5 +1,5 @@
 var storage
-if (chrome && chrome.storage) {
+if (typeof chrome !== 'undefined' && chrome.storage) {
   storage = chrome.storage.local
 }
 let dataStore = new Map()
