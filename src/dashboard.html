@@ -14,7 +14,6 @@
     <nav>
       <ul>
         <li></li>
-        <li></li>
         <li>
           User:
           <span id="username">{{ name }}</span>
@@ -24,7 +23,20 @@
         <li>
           <button class="load btn">重新加载数据</button>
           <br>
-          <span>点击此按钮，会更新 Map 对象 dataCollect， 如果有新的值插入，则同步appendChild 一个元素</span>
+          <span class='tip'>点击此按钮，会更新 Map 对象 dataCollect， 如果有新的值插入，则同步appendChild 一个元素</span>
+        </li>
+        <li><span class="tip">使用到的技巧：
+1.0 Chrome 插件 使用 promise 从 chrome.store 读取存储的信息
+1.1 在popup页面写了 async 函数，用来完成存储数据
+1.2 在popup页面使用了节流函数
+2. 使用了Map数据类型，将有可能要操作的dom的内存指向，直接存在里面。做逻辑判断时，可以使用 for ... of 来遍历
+3. 使用了事件委托，创建了辅助函数 searchEl 来递归查找所需要的元素
+4. 部分使用JsDoc注释</span>
+        </li>
+        <li><span class="tip">TODO:
+使用Vue, 在CSP模式下运行
+不用Vue完成数据和视图的传递太麻烦了。
+</span>
         </li>
       </ul>
     </nav>

@@ -7,15 +7,7 @@ let inited = false
 
 document.addEventListener('DOMContentLoaded', function() {
   loadBasicList()
-  document.querySelector('.load').addEventListener('click', function() {
-    loadBasicList()
-  })
-  document.querySelector('.detail').addEventListener('click', function(e) {
-    if (e.target.matches('button.reset')) {
-      toggleFocus(0)
-    }
-  })
-  document.querySelector('main').addEventListener('click', function(e) {
+  document.querySelector('body').addEventListener('click', function(e) {
     // window.tmp2 = e.target
     if (e.target.matches('a')) {
       console.info('是个a标签')
@@ -26,6 +18,19 @@ document.addEventListener('DOMContentLoaded', function() {
       console.info('删除数据', e.target.parentNode.dataset.id)
       deleteItemById(e.target.parentNode.dataset.id)
         // e.stopPropagation()
+      return
+    }
+    if (e.target.matches('button.reset')) {
+      toggleFocus(0)
+      return
+    }
+
+    if (searchEl('.load', e.target, e.currentTarget)) {
+      loadBasicList()
+      return
+    }
+    if (searchEl('nav', e.target, e.currentTarget)) {
+      toggleFocus(0)
       return
     }
     let targetLi = searchEl('li[data-id]', e.target, e.currentTarget)
@@ -61,15 +66,6 @@ function loadKeys(cb) {
   })
 }
 
-
-// loadKeys(function (err, result) {
-//   if (err) return console.info('keys err')
-//   let appId = result.ak;
-//   let appKey = result.sk;
-//   init = () => { AV.init({ appId, appKey }) }
-//   // .then((...x) => console.info(x)).catch(err => console.error(err));
-// })
-
 var init = () => {
   return new Promise(function(r, j) {
     // console.info(inited)
@@ -96,11 +92,6 @@ var init = () => {
 }
 
 function loadBasicList() {
-  // if (!init) {
-  //   return console.info('un loaded')
-  // } else {
-  //   init()
-  // }
   init().then(function(result) {
     console.info(result)
     if (result !== ' error') {
@@ -190,50 +181,23 @@ function renderList(selector, force) {
       createdAt: v.getCreatedAt()
     })
     col1.reduce(function(prev, curr) {
-        // if (!data[curr]) return prev
-        let tmpDiv = document.createElement('div')
-        tmpDiv.className = curr
-        let tmpSpan = document.createElement('span')
-        if (curr in dictFunc) {
-          dictFunc[curr](tmpSpan, data)
-        } else {
-          dictFunc.fallback(tmpSpan, data, curr)
-        }
-        tmpDiv.appendChild(tmpSpan)
-        prev.appendChild(tmpDiv)
-        return tmpDiv
-      }, li)
-      // for (key of col1) {
-      //   let tmpSpan = document.createElement('span')
-      //   tmpSpan.className = key
-      //   if (key in dictFunc) {
-      //     dictFunc[key](tmpSpan, data)
-      //   } else {
-      //     dictFunc.fallback(tmpSpan, data)
-      //   }
-      //   li.appendChild(tmpSpan)
-      // }
-
-    //     li.innerHTML = `\
-    // <span class='catalog'>${catalog}</span>\
-    // <span class='title'><a href='${url}' title='${url}'>${title}</a></span>\
-    // <span class='description'>${description}</span>\
-    // <span class='short'>${short}</span>\
-    // <span class='long'>${long}</span>\
-    // <span class='action'>+-</span>\
-    //       `
+      let tmpDiv = document.createElement('div')
+      tmpDiv.className = curr
+      let tmpSpan = document.createElement('span')
+      if (curr in dictFunc) {
+        dictFunc[curr](tmpSpan, data)
+      } else {
+        dictFunc.fallback(tmpSpan, data, curr)
+      }
+      tmpDiv.appendChild(tmpSpan)
+      prev.appendChild(tmpDiv)
+      return tmpDiv
+    }, li)
     tmpFrag.appendChild(li)
     renderedItem.set(objId, li)
   })
   target.appendChild(tmpFrag)
 }
-
-// new Vue({
-//   el:'#app',
-//   data:{
-//     msg:'aaa message'
-//   }
-// })
 
 
 function deleteItemById(id) {
