@@ -75,10 +75,12 @@ body>div * {
   align-items: flex-start;
   position: relative;
   padding-top: 5rem;
+  transform: translate3d(0%, 0, 0px);
 }
 
 .dashboard {
   transform-origin: 10rem 50% 0;
+  transform: translate3d(0%, 0, 0px) rotateY(0deg);
 }
 
 body.focus .detail {
@@ -99,7 +101,7 @@ body.focus .dashboard {
   color: #EFF3F6;
   border-radius: .8rem 0 0 .8rem;
   border-bottom: thin lightcyan solid;
-  transition: all 1s;
+  transition: all .4s;
 }
 
 body.focus .dashboard>nav {
@@ -237,7 +239,7 @@ main>ul>li>span.title {
   flex: 2;
   color: #333;
   transform-origin: left;
-  transition: all 1s;
+  transition: all .4s;
 }
 
 body.focus main>ul>li>span.title {
@@ -285,7 +287,7 @@ main>ul>li div {
   padding: 0 .4rem;
   cursor: pointer;
   transform-origin: left;
-  transition: all 1s;
+  transition: all .4s;
 }
 
 main>ul>li div>span {

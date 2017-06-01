@@ -6,7 +6,8 @@ let dataStore = new Map()
 let renderedItem = new Map()
   // 初始化 keys
 let inited = false
-
+// html的overflow-y为hidden，每次加载页面都重置到左侧顶部
+window.scrollTo(0,0)
 
 document.addEventListener('DOMContentLoaded', function() {
   loadBasicList()
@@ -128,7 +129,7 @@ function loadBasicList() {
         results.map(v => {
           dataStore.set(v.getObjectId(), v)
         })
-        renderList('', )
+        renderList('', 0)
       }).catch(err => console.error(err))
     }
   })
