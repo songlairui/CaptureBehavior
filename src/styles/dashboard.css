@@ -65,7 +65,7 @@ body>div {
 /* 继承 trasnform-style:preserve-3d */
 
 body>div * {
-  transform: translateZ(1px);
+  transform: translateZ(0px);
   transform-style: inherit;
 }
 
